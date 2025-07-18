@@ -77,12 +77,6 @@ export const HeatEquation2D: React.FC = () => {
     const nx = u.length;
     const ny = u[0].length;
 
-    // Bottom boundary: u(x,0,t) = sin(πx/Lx)
-    for (let i = 0; i < nx; i++) {
-      const x = i * params.dx;
-      u[i][0] = Math.sin(Math.PI * x / params.Lx);
-    }
-
     // Left boundary: ux(0,y,t) = fL (Neumann condition)
     for (let j = 0; j < ny; j++) {
       u[0][j] = u[1][j] - params.fL * params.dx;
@@ -96,6 +90,12 @@ export const HeatEquation2D: React.FC = () => {
     // Top boundary: uy(x,Ly,t) = fT (Neumann condition)
     for (let i = 0; i < nx; i++) {
       u[i][ny-1] = u[i][ny-2] + params.fT * params.dy;
+    }
+
+    // Bottom boundary: u(x,0,t) = sin(πx/Lx)
+    for (let i = 0; i < nx; i++) {
+      const x = i * params.dx;
+      u[i][0] = Math.sin(Math.PI * x / params.Lx);
     }
   }, [params.dx, params.dy, params.Lx, params.fL, params.fR, params.fT]);
 
